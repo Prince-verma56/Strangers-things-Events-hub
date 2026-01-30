@@ -171,6 +171,30 @@ const JudgesSection = () => {
       id="judges"
     >
       {/* Background */}
+      {/* Background Image Layer */}
+<div
+  className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+  style={{
+    backgroundImage: "url('/images/backgrounds/judges-bg.jpg')",
+  }}
+/>
+
+{/* Fade / Dark Overlay */}
+{/* <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/40 via-black/70 to-black/90" /> */}
+
+<div
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-60"
+        style={{ backgroundImage: "url('/images/Bg/CarNeon.png')" }}
+      />
+
+      {/* Dark Fade Overlay */}
+      <div className="absolute inset-0 z-0 bg-black/70" />
+
+      {/* Optional soft tint */}
+      <div className="absolute inset-0 z-0 bg-black/20" />
+
+{/* Extra soft noise / tint layer (optional but premium) */}
+<div className="absolute inset-0 z-0 bg-black/20 backdrop-blur-[1px]" />
       <div className="absolute inset-0 bg-gradient-to-b from-background via-zinc-950/90 to-background z-0" />
       
       <div className="absolute inset-0 bg-black/10 z-0" />
