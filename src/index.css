@@ -1,0 +1,579 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Empire';
+  src: url('./assets/fonts/Empire.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Benguiat Bold';
+  src: url('./assets/fonts/Benguiat Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Stranger Things Outlined';
+  src: url('./assets/fonts/Stranger Things Outlined.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Dragonforce';
+  src: url('./assets/fonts/DragonForcE.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kraken';
+  src: url('./assets/fonts/kraken/Kraken.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ParryHotter';
+  src: url('./assets/fonts/parry-hotter/Parry Hotter.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'The_Last_Of_Us';
+  src: url('./assets/fonts/the-last-of-us/The Last Of Us.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* STRANGER THINGS / UPSIDE DOWN DESIGN SYSTEM */
+
+@layer base {
+  :root {
+    /* Dark theme by default - Upside Down aesthetic */
+    --background: 0 0% 2%;
+    --foreground: 0 0% 95%;
+
+    --card: 0 0% 4%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 0 0% 4%;
+    --popover-foreground: 0 0% 95%;
+
+    /* Blood red primary */
+    --primary: 0 100% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Deep charcoal secondary */
+    --secondary: 220 15% 8%;
+    --secondary-foreground: 0 0% 95%;
+
+    /* Midnight muted */
+    --muted: 220 20% 12%;
+    --muted-foreground: 0 0% 60%;
+
+    /* Electric cyan accent */
+    --accent: 185 100% 50%;
+    --accent-foreground: 0 0% 0%;
+
+    /* Blood red destructive */
+    --destructive: 0 100% 40%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 0 100% 50%;
+
+    --radius: 0.5rem;
+
+    /* Custom Stranger Things colors */
+    --void: 0 0% 2%;
+    --void-deep: 220 50% 3%;
+    --crimson: 0 100% 50%;
+    --crimson-dark: 0 100% 30%;
+    --crimson-glow: 0 100% 60%;
+    --electric: 185 100% 50%;
+    --fog: 220 20% 50%;
+
+    /* Glow effects */
+    --glow-red: 0 0 40px hsl(0 100% 50% / 0.6);
+    --glow-red-intense: 0 0 80px hsl(0 100% 50% / 0.8);
+    --glow-cyan: 0 0 40px hsl(185 100% 50% / 0.6);
+
+    --sidebar-background: 0 0% 4%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 0 100% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 15% 10%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 0 100% 50%;
+  }
+
+  /* Inverted Upside Down mode */
+  .upside-down {
+    filter: invert(1) hue-rotate(180deg);
+  }
+
+  .upside-down img,
+  .upside-down video {
+    filter: invert(1) hue-rotate(180deg);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: auto;
+    /* Lenis handles smooth scroll */
+  }
+
+  body {
+    @apply bg-background text-foreground overflow-x-hidden;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  body::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+  }
+
+  /* Stranger Things title font */
+  .font-stranger {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.15em;
+  }
+
+  /* Typewriter/horror font */
+  .font-horror {
+    font-family: 'Special Elite', cursive;
+  }
+}
+
+@layer components {
+
+  /* Film grain overlay */
+  .film-grain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  }
+
+  /* Red glow text */
+  .text-glow-red {
+    text-shadow:
+      0 0 10px hsl(var(--crimson) / 0.8),
+      0 0 20px hsl(var(--crimson) / 0.6),
+      0 0 40px hsl(var(--crimson) / 0.4),
+      0 0 80px hsl(var(--crimson) / 0.2);
+  }
+
+  /* Cyan glow text */
+  .text-glow-cyan {
+    text-shadow:
+      0 0 10px hsl(var(--electric) / 0.8),
+      0 0 20px hsl(var(--electric) / 0.6),
+      0 0 40px hsl(var(--electric) / 0.4);
+  }
+
+  /* Box glow effects */
+  .glow-red {
+    box-shadow:
+      0 0 20px hsl(var(--crimson) / 0.4),
+      0 0 40px hsl(var(--crimson) / 0.2),
+      inset 0 0 20px hsl(var(--crimson) / 0.1);
+  }
+
+  .glow-red-intense {
+    box-shadow:
+      0 0 30px hsl(var(--crimson) / 0.6),
+      0 0 60px hsl(var(--crimson) / 0.4),
+      0 0 100px hsl(var(--crimson) / 0.2);
+  }
+
+  /* Glitch effect */
+  .glitch {
+    animation: glitch 2s infinite;
+  }
+
+  @keyframes glitch {
+
+    0%,
+    90%,
+    100% {
+      transform: translate(0);
+      filter: none;
+    }
+
+    91% {
+      transform: translate(-2px, 1px);
+      filter: hue-rotate(90deg);
+    }
+
+    92% {
+      transform: translate(2px, -1px);
+      filter: hue-rotate(-90deg);
+    }
+
+    93% {
+      transform: translate(-1px, -1px);
+      filter: none;
+    }
+
+    94% {
+      transform: translate(1px, 1px);
+      filter: hue-rotate(45deg);
+    }
+  }
+
+  /* Flicker animation */
+  .flicker {
+    animation: flicker 3s infinite;
+  }
+
+  @keyframes flicker {
+
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 1;
+    }
+
+    52% {
+      opacity: 0.8;
+    }
+
+    54% {
+      opacity: 1;
+    }
+
+    56% {
+      opacity: 0.9;
+    }
+
+    58% {
+      opacity: 1;
+    }
+  }
+
+  /* Pulse glow */
+  .pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+
+  @keyframes pulseGlow {
+
+    0%,
+    100% {
+      box-shadow:
+        0 0 20px hsl(var(--crimson) / 0.4),
+        0 0 40px hsl(var(--crimson) / 0.2);
+    }
+
+    50% {
+      box-shadow:
+        0 0 40px hsl(var(--crimson) / 0.6),
+        0 0 80px hsl(var(--crimson) / 0.4),
+        0 0 120px hsl(var(--crimson) / 0.2);
+    }
+  }
+
+  /* Text reveal animation */
+  .text-reveal {
+    animation: textReveal 1s ease-out forwards;
+    opacity: 0;
+  }
+
+  @keyframes textReveal {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+      filter: blur(10px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+  }
+
+  /* Floating animation */
+  .float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  /* Lightning flash */
+  .lightning-flash {
+    animation: lightningFlash 0.2s ease-out;
+  }
+
+  @keyframes lightningFlash {
+    0% {
+      opacity: 0;
+    }
+
+    20% {
+      opacity: 1;
+    }
+
+    40% {
+      opacity: 0.3;
+    }
+
+    60% {
+      opacity: 0.8;
+    }
+
+    100% {
+      opacity: 0;
+    }
+  }
+
+  /* Heartbeat background */
+  .heartbeat {
+    animation: heartbeat 1.5s ease-in-out infinite;
+  }
+
+  @keyframes heartbeat {
+
+    0%,
+    100% {
+      transform: scale(1);
+    }
+
+    14% {
+      transform: scale(1.02);
+    }
+
+    28% {
+      transform: scale(1);
+    }
+
+    42% {
+      transform: scale(1.03);
+    }
+
+    56% {
+      transform: scale(1);
+    }
+  }
+
+  /* Shake effect */
+  .shake {
+    animation: shake 0.5s ease-in-out;
+  }
+
+  @keyframes shake {
+
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+
+    10% {
+      transform: translateX(-5px) rotate(-0.5deg);
+    }
+
+    20% {
+      transform: translateX(5px) rotate(0.5deg);
+    }
+
+    30% {
+      transform: translateX(-5px) rotate(-0.5deg);
+    }
+
+    40% {
+      transform: translateX(5px) rotate(0.5deg);
+    }
+
+    50% {
+      transform: translateX(-3px) rotate(-0.3deg);
+    }
+
+    60% {
+      transform: translateX(3px) rotate(0.3deg);
+    }
+
+    70% {
+      transform: translateX(-2px) rotate(-0.2deg);
+    }
+
+    80% {
+      transform: translateX(2px) rotate(0.2deg);
+    }
+
+    90% {
+      transform: translateX(-1px) rotate(-0.1deg);
+    }
+  }
+
+  /* Magnetic button effect base */
+  .magnetic-btn {
+    transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  /* Red underline draw */
+  .underline-draw {
+    position: relative;
+  }
+
+  .underline-draw::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: hsl(var(--crimson));
+    box-shadow: 0 0 10px hsl(var(--crimson) / 0.8);
+    transition: width 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .underline-draw:hover::after {
+    width: 100%;
+  }
+
+  /* Distort on hover */
+  .distort-hover {
+    transition: transform 0.3s ease, filter 0.3s ease;
+  }
+
+  .distort-hover:hover {
+    transform: scale(1.02) skewX(-1deg);
+    filter: saturate(1.2) contrast(1.1);
+  }
+
+  /* Portal card effect */
+  .portal-card {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .portal-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, hsl(var(--crimson) / 0.2) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .portal-card:hover::before {
+    opacity: 1;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(var(--crimson)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+@layer utilities {
+
+  /* Custom scrollbar for elements that need it */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: hsl(var(--void));
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--crimson) / 0.5);
+    border-radius: 3px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--crimson) / 0.8);
+  }
+
+  /* Fog gradient */
+  .fog-overlay {
+    background: linear-gradient(180deg,
+        transparent 0%,
+        hsl(var(--void) / 0.3) 30%,
+        hsl(var(--void) / 0.5) 50%,
+        hsl(var(--void) / 0.3) 70%,
+        transparent 100%);
+  }
+
+  /* GPU Acceleration Utilities - Performance Optimization */
+  .gpu-accelerate {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  .will-change-transform {
+    will-change: transform;
+  }
+
+  .will-change-opacity {
+    will-change: opacity;
+  }
+
+  .will-change-transform-opacity {
+    will-change: transform, opacity;
+  }
+
+  /* Contain paint for better rendering performance */
+  .contain-paint {
+    contain: paint;
+  }
+
+  .contain-layout {
+    contain: layout;
+  }
+
+  .contain-strict {
+    contain: strict;
+  }
+
+  /* Hardware acceleration for animations */
+  .hw-accelerate {
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+}
