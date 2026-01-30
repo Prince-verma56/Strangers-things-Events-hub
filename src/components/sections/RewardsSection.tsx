@@ -34,33 +34,49 @@ const RewardsSection = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="rewards" className="relative min-h-[80vh] py-32 px-4 overflow-hidden flex items-center justify-center">
-      {/* Background with Overlay */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-         <div className="absolute inset-0 bg-gradient-to-b from-background via-zinc-950/90 to-background z-10" />
-         <div className="absolute inset-0 bg-void-deep opacity-40" />
+    <section 
+      ref={sectionRef} 
+      id="rewards" 
+      className="relative min-h-[80vh] py-32 px-4 overflow-hidden flex items-center justify-center bg-background"
+    >
+      {/* --- BACKGROUND LAYER START --- */}
+      <div className="absolute inset-0 z-0">
+        {/* The Actual Image */}
+        <img 
+          src="/images/Bg/TracksSection bg1.png"
+          alt="Background" 
+          className="w-full h-full object-cover opacity-40 transition-opacity duration-1000 ease-in-out"
+        />
+        
+        {/* Radial Vignette: keeps the center clear but darkens the edges */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)]" />
+
+        {/* Linear Overlays: Blends the section into the sections above and below */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background opacity-60" />
       </div>
+      {/* --- BACKGROUND LAYER END --- */}
 
       <div className="relative z-10 max-w-7xl mx-auto w-full">
         {/* Section header */}
         <div className="text-center mb-20">
-          <h2 className="font-['Kraken'] text-5xl sm:text-6xl md:text-7xl text-foreground mb-6 gsap-fade-up">
+          <h2 className="font-['Kraken'] text-5xl sm:text-6xl md:text-7xl text-foreground mb-6">
             UPCOMING <span className="text-crimson text-glow-red">EVENTS</span>
           </h2>
-          <p className="font-sans text-xl text-muted-foreground max-w-2xl mx-auto gsap-fade-up leading-relaxed">
+          <p className="font-sans text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             Mark your calendar for these exciting opportunities to learn, compete, and connect with the community.
           </p>
         </div>
 
         {/* Events Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {events.map((event, index) => (
+          {events.map((event) => (
             <div
               key={event.id}
               onClick={() => navigate(`/event/${event.id}`)}
               className="event-card group relative bg-zinc-900/40 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-500 shadow-lg hover:shadow-2xl hover:-translate-y-2 will-change-transform cursor-pointer"
             >
-              {/* Dynamic Gradient Glow */}
+              {/* Dynamic Gradient Glow on Hover */}
               <div
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
                 style={{
@@ -68,7 +84,7 @@ const RewardsSection = () => {
                 }}
               />
 
-              {/* Shine Effect */}
+              {/* Shine Effect Animation */}
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none overflow-hidden">
                 <div className="absolute top-0 -left-[100%] w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 group-hover:animate-shine" />
               </div>
@@ -85,7 +101,7 @@ const RewardsSection = () => {
 
               {/* Event Content */}
               <div className="relative z-10 p-6 flex flex-col h-[calc(100%-12rem)]">
-                <h3 className="font-stranger text-xl mb-3 tracking-wide text-white group-hover:text-crimson transition-colors duration-300 drop-shadow-md line-clamp-2">
+                <h3 className="font-bold text-xl mb-3 tracking-wide text-white group-hover:text-crimson transition-colors duration-300 drop-shadow-md line-clamp-2">
                   {event.title}
                 </h3>
 

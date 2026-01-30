@@ -35,13 +35,12 @@ const judges = [
   },
 ];
 
-// Enhanced Floating Card Component
 interface FloatingCardProps {
   children: React.ReactNode;
   index: number;
 }
 
-const FloatingCard: React.FC<FloatingCardProps> = ({ children, index }) => {
+const FloatingCard: React.FC<FloatingCardProps> = ({ children }) => {
   const [isHovering, setIsHovering] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -55,18 +54,11 @@ const FloatingCard: React.FC<FloatingCardProps> = ({ children, index }) => {
 
     if (isHovering) {
       gsap.to(containerRef.current, {
-        x: xOffset / 10,
-        y: yOffset / 10,
-        rotationY: xOffset / 15,
-        rotationX: -yOffset / 15,
+        x: xOffset / 15,
+        y: yOffset / 15,
+        rotationY: xOffset / 20,
+        rotationX: -yOffset / 20,
         transformPerspective: 1000,
-        duration: 0.6,
-        ease: "power2.out",
-      });
-
-      gsap.to(contentRef.current, {
-        x: -xOffset / 20,
-        y: -yOffset / 20,
         duration: 0.6,
         ease: "power2.out",
       });
@@ -74,18 +66,12 @@ const FloatingCard: React.FC<FloatingCardProps> = ({ children, index }) => {
   };
 
   useEffect(() => {
-    if (!isHovering && containerRef.current && contentRef.current) {
+    if (!isHovering && containerRef.current) {
       gsap.to(containerRef.current, {
         x: 0,
         y: 0,
         rotationY: 0,
         rotationX: 0,
-        duration: 0.8,
-        ease: "power3.out",
-      });
-      gsap.to(contentRef.current, {
-        x: 0,
-        y: 0,
         duration: 0.8,
         ease: "power3.out",
       });
@@ -101,11 +87,7 @@ const FloatingCard: React.FC<FloatingCardProps> = ({ children, index }) => {
       className="judge-card-wrapper h-full"
       style={{ perspective: "1000px" }}
     >
-      <div
-        ref={contentRef}
-        style={{ transformStyle: "preserve-3d" }}
-        className="h-full"
-      >
+      <div ref={contentRef} style={{ transformStyle: "preserve-3d" }} className="h-full">
         {children}
       </div>
     </div>
@@ -115,12 +97,25 @@ const FloatingCard: React.FC<FloatingCardProps> = ({ children, index }) => {
 const JudgesSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
+      // Parallax effect for the background image
+      gsap.to(bgRef.current, {
+        yPercent: 15,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        }
+      });
+
       // Title animation
       if (titleRef.current) {
         gsap.fromTo(
@@ -130,7 +125,6 @@ const JudgesSection = () => {
             opacity: 1,
             y: 0,
             duration: 1,
-            ease: "power3.out",
             scrollTrigger: {
               trigger: titleRef.current,
               start: "top 80%",
@@ -140,21 +134,20 @@ const JudgesSection = () => {
       }
 
       // Card stagger animation
-      const validCards = cardRefs.current.filter((card): card is HTMLDivElement => card !== null);
+      const validCards = cardRefs.current.filter((card) => card !== null);
       if (validCards.length > 0) {
         gsap.fromTo(
           validCards,
-          { opacity: 0, y: 80, scale: 0.9 },
+          { opacity: 0, y: 60 },
           {
             opacity: 1,
             y: 0,
-            scale: 1,
             duration: 0.8,
             stagger: 0.2,
-            ease: "back.out(1.2)",
+            ease: "power3.out",
             scrollTrigger: {
-              trigger: validCards[0],
-              start: "top 85%",
+              trigger: sectionRef.current,
+              start: "top 70%",
             },
           }
         );
@@ -165,47 +158,27 @@ const JudgesSection = () => {
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative min-h-[90vh] py-32 px-4 overflow-hidden"
-      id="judges"
-    >
-      {/* Background */}
-      {/* Background Image Layer */}
-<div
-  className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-  style={{
-    backgroundImage: "url('/images/backgrounds/judges-bg.jpg')",
-  }}
-/>
-
-{/* Fade / Dark Overlay */}
-{/* <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/40 via-black/70 to-black/90" /> */}
-
-<div
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-60"
-        style={{ backgroundImage: "url('/images/Bg/CarNeon.png')" }}
-      />
-
-      {/* Dark Fade Overlay */}
-      <div className="absolute inset-0 z-0 bg-black/70" />
-
-      {/* Optional soft tint */}
-      <div className="absolute inset-0 z-0 bg-black/20" />
-
-{/* Extra soft noise / tint layer (optional but premium) */}
-<div className="absolute inset-0 z-0 bg-black/20 backdrop-blur-[1px]" />
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-zinc-950/90 to-background z-0" />
+    <section ref={sectionRef} className="relative min-h-screen py-32 px-4 overflow-hidden bg-background" id="judges">
       
-      <div className="absolute inset-0 bg-black/10 z-0" />
+      {/* --- REFINED UNIFIED BACKGROUND --- */}
+      <div className="absolute inset-0 z-0">
+        <div ref={bgRef} className="absolute inset-0 h-[120%] -top-[10%]">
+             <img 
+               src="/images/Bg/CarNeon.png" 
+               className="w-full h-full object-cover opacity-30 grayscale-[0.5]" 
+               alt="" 
+             />
+        </div>
+        
+        {/* Gradients to blend the background image */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/60 to-background" />
+        <div className="absolute inset-0 bg-radial-gradient from-transparent to-background/90" />
+      </div>
+      {/* ---------------------------------- */}
 
       <div className="relative z-10 max-w-7xl mx-auto">
-        {/* Section header */}
         <div className="text-center mb-20">
-          <h2
-            ref={titleRef}
-            className="font-['Kraken'] text-5xl sm:text-6xl md:text-8xl text-foreground mb-6"
-          >
+          <h2 ref={titleRef} className="font-['Kraken'] text-5xl sm:text-6xl md:text-8xl text-foreground mb-6">
             OUR <span className="text-crimson text-glow-red">MENTORS</span>
           </h2>
           <p className="font-sans text-xl text-muted-foreground">
@@ -213,55 +186,53 @@ const JudgesSection = () => {
           </p>
         </div>
 
-        {/* Judge cards - 3 columns */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {judges.map((judge, index) => (
-             <div ref={el => { cardRefs.current[index] = el; }} key={index}>
+            <div ref={(el) => { cardRefs.current[index] = el; }} key={index}>
               <FloatingCard index={index}>
-                  <div className="bg-zinc-900/40 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:border-crimson/50 transition-colors duration-500 h-full flex flex-col group relative shadow-2xl">
-                      {/* Gradient Overlay on Card */}
-                      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/80 pointer-events-none z-10" />
+                <div className="bg-zinc-900/40 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:border-crimson/50 transition-colors duration-500 h-full flex flex-col group relative shadow-2xl">
+                  {/* Card Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/80 pointer-events-none z-10" />
 
-                      {/* Image Area */}
-                      <div className="h-64 overflow-hidden relative bg-zinc-800">
-                         <img 
-                            src={judge.image} 
-                            alt={judge.name}
-                            className="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 transition-all duration-500 group-hover:scale-110 grayscale group-hover:grayscale-0"
-                         />
-                         <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent z-0" />
-                      </div>
-
-                      <div className="p-6 relative z-20 -mt-12 flex flex-col flex-grow">
-                          <div className="bg-zinc-950/80 backdrop-blur-md border border-white/10 p-4 rounded-xl mb-4 text-center transform group-hover:-translate-y-2 transition-transform duration-300 shadow-lg">
-                              <h3 className="font-stranger text-2xl text-white tracking-wide mb-1">{judge.name}</h3>
-                              <p className="text-crimson text-xs font-bold uppercase tracking-wider">{judge.role}</p>
-                              <p className="text-zinc-500 text-[10px] uppercase tracking-widest mt-1">{judge.company}</p>
-                          </div>
-
-                          <p className="text-zinc-400 text-sm leading-relaxed mb-6 text-center line-clamp-4 flex-grow">
-                              {judge.bio}
-                          </p>
-
-                          <div className="flex justify-center gap-4 mt-auto pt-4 border-t border-white/5">
-                              <a href={judge.linkedin} className="text-zinc-500 hover:text-crimson transition-colors transform hover:scale-110">
-                                  <Linkedin size={18} />
-                              </a>
-                              {judge.twitter && judge.twitter !== "#" && (
-                                  <a href={judge.twitter} className="text-zinc-500 hover:text-crimson transition-colors transform hover:scale-110">
-                                      <Twitter size={18} />
-                                  </a>
-                              )}
-                              {judge.github && judge.github !== "#" && (
-                                  <a href={judge.github} className="text-zinc-500 hover:text-crimson transition-colors transform hover:scale-110">
-                                      <Github size={18} />
-                                  </a>
-                              )}
-                          </div>
-                      </div>
+                  {/* Image Area */}
+                  <div className="h-64 overflow-hidden relative bg-zinc-800">
+                    <img
+                      src={judge.image}
+                      alt={judge.name}
+                      className="w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
+                    />
                   </div>
+
+                  <div className="p-6 relative z-20 -mt-12 flex flex-col flex-grow">
+                    <div className="bg-zinc-950/90 backdrop-blur-md border border-white/10 p-4 rounded-xl mb-4 text-center transform group-hover:-translate-y-2 transition-all duration-300 shadow-xl">
+                      <h3 className="font-stranger text-2xl text-white tracking-wide mb-1">{judge.name}</h3>
+                      <p className="text-crimson text-xs font-bold uppercase tracking-wider">{judge.role}</p>
+                      <p className="text-zinc-500 text-[10px] uppercase tracking-widest mt-1">{judge.company}</p>
+                    </div>
+
+                    <p className="text-zinc-400 text-sm leading-relaxed mb-6 text-center line-clamp-4 flex-grow">
+                      {judge.bio}
+                    </p>
+
+                    <div className="flex justify-center gap-4 mt-auto pt-4 border-t border-white/5">
+                      <a href={judge.linkedin} className="text-zinc-500 hover:text-crimson transition-colors transform hover:scale-110">
+                        <Linkedin size={18} />
+                      </a>
+                      {judge.twitter && judge.twitter !== "#" && (
+                        <a href={judge.twitter} className="text-zinc-500 hover:text-crimson transition-colors transform hover:scale-110">
+                          <Twitter size={18} />
+                        </a>
+                      )}
+                      {judge.github && judge.github !== "#" && (
+                        <a href={judge.github} className="text-zinc-500 hover:text-crimson transition-colors transform hover:scale-110">
+                          <Github size={18} />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
               </FloatingCard>
-             </div>
+            </div>
           ))}
         </div>
       </div>
