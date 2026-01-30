@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
 import { useLenisContext } from "@/context/LenisContext";
 import clsx from "clsx"; // Make sure to install: npm install clsx
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/clerk-react";
 
 const navItems = [
   { label: "Home", sectionId: "home" },
@@ -184,7 +184,7 @@ useEffect(() => {
 
        {/* AUTH BUTTONS */}
       <div
-        className={`fixed top-6 right-24 z-[100] flex items-center gap-4 transition-all duration-500 ${
+        className={`fixed top-6 right-72 z-[100] flex items-center gap-4 transition-all duration-500 ${
           isVisible && hasAnimated
             ? "translate-y-0 opacity-100"
             : "-translate-y-24 opacity-0"
@@ -193,10 +193,15 @@ useEffect(() => {
       >
         <SignedOut>
           <SignInButton mode="modal">
-            <button className="bg-crimson text-white px-6 py-2 rounded-full font-semibold shadow-lg hover:scale-105 hover:shadow-red-600/40 transition-all duration-300">
+            <button className="bg-black/40 text-white border border-white/10 backdrop-blur-md px-6 py-2 rounded-full font-semibold shadow-lg hover:bg-white/10 hover:scale-105 transition-all duration-300">
               Sign In
             </button>
           </SignInButton>
+          <SignUpButton mode="modal">
+            <button className="bg-crimson text-white px-6 py-2 rounded-full font-semibold shadow-lg hover:bg-red-700 hover:scale-105 hover:shadow-red-600/40 transition-all duration-300">
+              Sign Up
+            </button>
+          </SignUpButton>
         </SignedOut>
         <SignedIn>
           <UserButton 
