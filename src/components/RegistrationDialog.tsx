@@ -22,6 +22,7 @@ import {
 } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { submitRegistration, type RegistrationData } from '@/lib/registrations';
+import { useSupabaseAuth } from '@/hooks/useSupabaseAuth';
 import { Loader2 } from 'lucide-react';
 
 const registrationSchema = z.object({
@@ -44,6 +45,7 @@ interface RegistrationDialogProps {
 export function RegistrationDialog({ open, onOpenChange, eventName }: RegistrationDialogProps) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { toast } = useToast();
+    const { supabase, userId } = useSupabaseAuth(); // Use the auth hook
     const formRef = useRef<HTMLFormElement>(null);
     const titleRef = useRef<HTMLHeadingElement>(null);
 
@@ -102,9 +104,11 @@ export function RegistrationDialog({ open, onOpenChange, eventName }: Registrati
             year_of_study: data.year_of_study,
             team_size: data.team_size,
             event_name: eventName || 'General Registration',
+            user_id: userId ?? undefined,
         };
 
-        const result = await submitRegistration(registrationData);
+        // Pass the authenticated supabase client if available
+        const result = await submitRegistration(registrationData, supabase);
 
         setIsSubmitting(false);
 
